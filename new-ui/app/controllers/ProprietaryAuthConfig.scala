@@ -30,7 +30,7 @@ trait ProprietaryAuthConfig extends AuthConfig {
    * A `ClassTag` is used to retrieve an id from the Cache API.
    * Use something like this:
    */
-  override implicit def idTag: ClassTag[Id] = classTag[Id]
+  override val idTag: ClassTag[Id] = classTag[Id]
 
   /**
    * セッションがタイムアウトするまでの時間(秒)

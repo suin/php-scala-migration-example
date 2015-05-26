@@ -7,7 +7,6 @@ package object account {
                    username: String,
                    role: Role)
 
-
   sealed trait Role
 
   object Role {
