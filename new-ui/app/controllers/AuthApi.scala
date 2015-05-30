@@ -23,7 +23,9 @@ object AuthApi extends Controller with LoginLogout with ProprietaryAuthConfig {
       data => {
         AccountService.authenticate(data.username, data.password) match {
           case None => Future.successful(Unauthorized(Json.obj("message" -> "authentication failed")))
-          case Some(user) => gotoLoginSucceeded(user.id)
+          case Some(user) => gotoLoginSucceeded(user.id, Future.successful(
+            Ok(Json.obj("username" -> user.username))
+          ))
         }
       }
     )

@@ -2,7 +2,7 @@ package controllers
 
 import jp.t2v.lab.play2.auth._
 import play.api.mvc.{Result, RequestHeader}
-import play.api.mvc.Results.{Redirect, Forbidden, Unauthorized}
+import play.api.mvc.Results.{Redirect, Ok, Forbidden, Unauthorized}
 import scala.concurrent.{Future, ExecutionContext}
 import scala.reflect.{ClassTag,classTag}
 import models.account.Role._
@@ -35,7 +35,7 @@ trait ProprietaryAuthConfig extends AuthConfig {
   /**
    * セッションがタイムアウトするまでの時間(秒)
    */
-  override def sessionTimeoutInSeconds: Int = 3600 // 1時間
+  override val sessionTimeoutInSeconds: Int = 3600 // 1時間
 
   /**
    * `Id`からユーザを探す方法。
@@ -48,7 +48,7 @@ trait ProprietaryAuthConfig extends AuthConfig {
    * ログインできたらどうするか？
    */
   override def loginSucceeded(request: RequestHeader)(implicit context: ExecutionContext): Future[Result] = {
-    Future.successful(Redirect(routes.Application.index))
+    Future.successful(Ok)
   }
 
   /**
@@ -84,4 +84,10 @@ trait ProprietaryAuthConfig extends AuthConfig {
   }
 
   override def authorizationFailed(request: RequestHeader)(implicit context: ExecutionContext): Future[Result] = throw new AssertionError("don't use")
+
+  override lazy val idContainer: AsyncIdContainer[Id] = AsyncIdContainer(new ProprietaryIdContainer[Id])
+
+  override lazy val tokenAccessor: TokenAccessor = new ProprietaryCookieTokenAccessor(
+    cookieMaxAge = Some(sessionTimeoutInSeconds)
+  )
 }

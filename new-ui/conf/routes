@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                           controllers.Application.index
+POST    /logout                     controllers.Application.logout
 
 # Auth APIs
 POST    /api/auth                   controllers.AuthApi.auth

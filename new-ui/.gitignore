@@ -13,3 +13,8 @@ dist
 /.project
 /RUNNING_PID
 /.settings
+
+# Client side
+/node_modules
+/types
+/public/javascripts/bundle.*

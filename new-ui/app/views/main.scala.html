@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String, scripts: Seq[String] = Seq())(content: Html)
 
 <!DOCTYPE html>
 
@@ -7,9 +7,15 @@
         <title>@title</title>
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <script src="@routes.Assets.at("javascripts/hello.js")" type="text/javascript"></script>
+        @for(script <- scripts) {
+            <script src="@routes.Assets.at("javascripts/" + script)"></script>
+        }
     </head>
     <body>
+        <h1>Scala</h1>
+        <p>An example project to describe migrating UI to Scala from PHP step by step</p>
+
+        <p>This is a new UI built in Scala Play. The old UI is <a href="http://localhost:8080">localhost:8080</a></p>
         @content
     </body>
 </html>

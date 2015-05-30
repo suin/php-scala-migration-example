@@ -1,7 +1,27 @@
-@(message: String)
+@import models.account.User
 
-@main("Welcome to Play") {
+@(cookies: String, userOpt: Option[User])
 
-    @play20.welcome(message)
+@main("PHP → Scala", scripts = Seq("bundle.login.js")) {
+    <p>Cookies:</p>
+    <pre>@cookies</pre>
 
+    <p>User:</p>
+    <ul>
+        <li>id: @userOpt.map(_.id).getOrElse("none")</li>
+        <li>username: @userOpt.map(_.username).getOrElse("guest user")</li>
+    </ul>
+
+    @if(userOpt.nonEmpty) {
+        <form action="/logout" method="post">
+            <button>Logout</button>
+        </form>
+    } else {
+        <div id="mount-login-form"></div>
+        <div>Available accounts:</div>
+        <ul>
+            <li>admin:pass</li>
+            <li>alice:pass</li>
+        </ul>
+    }
 }
